@@ -18,4 +18,8 @@ jobs:
         run: docker build -t devops-cicd-demo .
 
       - name: Test Docker image
-        run: docker run --rm devops-cicd-demo
+        run: |
+          docker run -d --name test-container -p 8080:80 devops-cicd-demo
+          sleep 5
+          docker ps
+          docker stop test-container
