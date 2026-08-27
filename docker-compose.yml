@@ -1,0 +1,6 @@
+services:
+  web:
+    build: .
+    container_name: devops-web
+    ports:
+      - "8080:80"
