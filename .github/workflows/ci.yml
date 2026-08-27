@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,9 +17,14 @@ jobs:
       - name: Build Docker image
         run: docker build -t devops-cicd-demo .
 
-      - name: Test Docker image
+      - name: Run container
         run: |
           docker run -d --name test-container -p 8080:80 devops-cicd-demo
           sleep 5
-          docker ps
-          docker stop test-container
+
+      - name: Test application
+        run: |
+          curl --fail http://localhost:8080
+
+      - name: Stop container
+        run: docker stop test-container
